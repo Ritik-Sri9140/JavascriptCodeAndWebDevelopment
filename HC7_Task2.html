@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survey Form</title>
+  <link rel="stylesheet" href="HC7_Task2.css">
+</head>
+<body>
+    <h1> Sample Survey Form</h1>
+    <h1 class="thank"> Thank you for taking the time to fill the survey</h1>
+    <form>
+    <fieldset>
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+      <label for="email">Email(optional)</label>
+      <input type="email" id="email" placeholder="Enter your email">
+      <label for="age">Age(optional)</label>
+      <input type="number" id="age" placeholder="Enter your age">
+      <label>Which option best describes your current role?</label>
+      <input type="text" id="role" placeholder="Select current role">
+      <label>How would you rate your coding skills?</label>
+      <input type="radio" id="a" name="a" value="r">Good</input>
+      <input type="radio"  id="a" name="a" value="r"> Average</input>
+      <input type="radio"  id="a" name="a" value="r"> Poor</input><br><br>
+      <label>What would you like learn?</label>
+      <input type="checkbox" id="check">Front-end Development
+      <input type="checkbox" id="check">Back-end Development
+      <input type="checkbox" id="check">Full stack Development
+      <br><br>
+      <label>Any comments or suggestions?</label>
+      <textarea id="comments-and-suggestions" rows="5" cols="50" placeholder="Enter your comment here....."></textarea>
+    <input type="submit" value="Submit">
+</fieldset>
+  </form>
+</body>
+</html>

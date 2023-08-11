@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Sales Data</h2>
+    <h3 id="name1">Seller : Jack Smith</h3>
+    <h3 id="sale1">Total Sale :
+        <span id="qty">12</span>
+    </h3>
+    <button onclick="addSale(1)">Add 1 to Sale</button>
+    <button onclick="addSale(2)">Add 2 to Sale</button>
+</body>
+<!-- <script src="file1.js"></script> -->
+<script>
+    function addSale(amt){
+        let ele=document.getElementById('qty');
+        let quantity=+ele.innerHTML;
+        console.log(quantity);
+        ele.innerHTML=quantity+amt;
+    }
+</script>
+</html>

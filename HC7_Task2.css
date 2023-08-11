@@ -1,0 +1,54 @@
+body {
+    background-color: blue;
+    font-family: sans-serif;
+    font-size: 16px;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 0;
+    margin-bottom: 0px;
+  }
+  
+  fieldset {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  legend {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input, textarea {
+    width: 99%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  input[type="submit"] {
+    background-color:green;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  form{
+    background-color:rgb(73, 0, 128);
+    color: white;
+  }
+  .thank {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 7px;
+  }
+  

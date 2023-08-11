@@ -1,0 +1,55 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: calc();
+    line-gap-override: inherit;
+}
+.list{
+    box-shadow: (0 4px 16px #aaa);
+    cursor: pointer;
+    margin: 250px;
+    padding: 5px 205px;
+    border: black;
+    border-radius: 12px;
+    text-align: left;
+}
+p{
+    /* background-color: cyan; */
+    box-sizing:border-box;
+    border: 10px;
+    padding: 8px;
+    border-color: black;
+}
+input{
+    position: absolute;
+    left: 850px;
+}
+.a{
+    background-color: cyan;
+}
+.b{
+    background-color:lightgreen;
+}
+.c{
+    background-color: cyan;
+}
+.d{
+    background-color:lightgreen;
+}
+.e{
+    background-color: cyan;
+}
+.f{
+    background-color:lightgreen;
+}
+.g{
+    background-color: cyan;
+}
+.h{
+    background-color:lightgreen;
+}
+.head{
+    background-color: rgb(55, 243, 55);
+    text-align: center;
+}
