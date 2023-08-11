@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1b</title>
+</head>
+<body>
+    <select id="dd01">
+        <option disabled>Select</option>
+        <option value="1">Javascript</option>
+        <option value="1">React</option>
+        <option value="1">Angular</option>
+    </select>
+    <select id="dd02">
+        <option>Select</option>
+        <option selected>Javascript</option>
+        <option>React</option>
+        <option>Angular</option>
+    </select>
+    <button onclick="display()">Display</button>
+<script>
+    function display(){
+        let dd1=document.getElementById('dd01');
+        console.log(dd1.value);
+        let dd2=document.getElementById('dd02');
+        console.log(dd1.value); 
+        dd1.value='1';
+        dd2.value='React'
+    }
+</script>
+</body>
+</html>

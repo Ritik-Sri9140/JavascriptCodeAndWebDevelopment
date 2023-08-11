@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>4.4</title>
+</head>
+<style>
+      .india{
+  background-color: blue;
+  color: white;
+}
+.usa{
+  background-color: green;
+  color: white;
+}
+.france{
+  background-color: blueviolet;
+  color: white;
+} 
+.age30{
+  background-color: green;
+  color: white;
+}
+.age40{
+  background-color: blue;
+  color: white;
+}
+
+.age{
+  background-color: red;
+  color: white;
+}
+
+th{
+  background-color: black;
+  color: white;
+}
+.remBtn{
+    background-color: rgb(106, 0, 0);
+    color: white;
+}
+.add1{
+    background-color: rgb(106, 0, 0);
+    color: white;
+}
+</style>
+<body>
+    <h1>List of People</h1>
+    <ul id="myList"></ul>
+    <div id="people"></div>
+    <button onclick="show()">Show</button>
+    <button onclick="hide()">Hide</button><br>
+    <button onclick="sortByName()">Sort by name</button>
+    <button onclick="sortByCountry()">Sort by country</button>
+    <button onclick="sortByAge()">Sort by age</button><br>
+    <button onclick="sortByCountryAndName()">Sort by country and name</button>
+    <button onclick="sortByCountryAndAge()">Sort by country and age</button><br>
+    <button onclick="showIndia()">India</button>
+    <button onclick="showUSA()">USA</button>
+    <button onclick="showFrance()">France</button><br>
+    <button onclick="styleByCountry()">Style by country</button>
+    <button onclick="styleByAge()">Style by age</button>
+<script>
+  let highlightCountry=false;
+    let highlightAge=false;
+    let people=[
+    {"name":"Jack","country":"USA","age":35},
+    {"name":"Amit","country":"India","age":38},
+    {"name":"Edward","country":"USA","age":41},
+    {"name":"Vishal","country":"India","age":30},
+    {"name":"Annie","country":"USA","age":27},
+    {"name":"Nick","country":"France","age":32},
+    {"name":"Francis","country":"France","age":44},
+    {"name":"Preeti","country":"India","age":25},
+    {"name":"Sophie","country":"France","age":29},
+    {"name":"Harpreet","country":"India","age":48},
+    {"name":"Bob","country":"USA","age":21}   
+]; 
+
+function showPeople(filterCountry = '') {
+  let filteredPeople = people;
+  if (filterCountry !== '') {
+    filteredPeople = people.filter(person => person.country === filterCountry);
+  }
+   let arr = filteredPeople.map(function(person) {
+    let str='<tr>';
+    str += "<td>" + person.name + "</td>";
+    str+='<td class="'+Country(person.country)+'">'+person.country+'</td>';
+    str+='<td class="'+Age(person.age)+'">'+person.age+'</td>'; 
+    str+='<td><button class="remBtn" onclick=\'remove(\"'+person.name+'")\'>Remove</button></td>';
+    str+='<td><button class="add1" onclick=\'add(\"'+person.name+'\", '+person.age+')\'>Add 1 To Age</button></td>';
+
+    str+='</tr>';
+      return str;
+   }) 
+   let header='<tr>';
+        header+='<th class=\'th1\' onclick=\'sort(0)\'>Name</th>';
+        header+='<th class=\'th1\' onclick=\'sort(1)\'>Country</th>';
+        header+='<th class=\'th1\' onclick=\'sort(2)\'>Age</th>';
+        header+='<th></th>';
+        header+='<th></th>';
+        header+='</tr>';
+        let html='<table border="1" class=\'table1\'>'+header+arr.join('')+'</table';
+        let element=document.getElementById('people');
+        element.innerHTML=html;
+}
+function showIndia() {
+  showPeople("India");
+}
+function showUSA() {
+  showPeople("USA");
+}
+function showFrance() {
+  showPeople("France");
+}
+function remove(name){
+        let index=people.findIndex(function(st){
+            return st.name==name;
+        });
+        people.splice(index,1);
+        showPeople();
+}
+function add(name, age) {
+  let person = people.find(function(person) {
+    return person.name === name && person.age === age;
+  });
+
+  if (person) {
+    person.age += 1;
+  } else {
+    console.log("No person found with name: " + name + " and age: " + age);
+  }
+
+  showPeople();
+}
+
+function sort(colno){
+  if(colno==0){
+      people.sort(sortName)
+  }
+  else if(colno==1){
+      people.sort(sortCountry)
+  }
+  else{
+      people.sort(sortAge)
+  }
+  showPeople();
+}
+function sortName(st1,st2){
+  return st1.name.localeCompare(st2.name);
+}
+function sortCountry(st1,st2){
+  return st1.country.localeCompare(st2.country);
+}
+function sortAge(st1,st2){
+  return st1.age - st2.age;
+}
+
+function Country(country) {
+    if (country == "India" && highlightCountry) {
+      return 'india';
+    } else if (country == "USA" && highlightCountry) {
+      return 'usa';
+    } else if (country == "France" && highlightCountry)  {
+      return 'france';
+    }
+    else{
+      return '';
+    }
+}
+function Age(age){
+    if(age<=30 && highlightAge){
+      return 'age30'
+    }
+    else if(age>30 && age<=40 && highlightAge){
+      return 'age40';
+    }
+    else if(age>40 && highlightAge)  {
+      return 'age';
+    }
+    else{
+      return '';
+    }
+}
+function styleByCountry(){
+    highlightCountry=true;
+    highlightAge=false;
+    showPeople();
+ }
+ function styleByAge(){
+    highlightAge=true;
+    highlightCountry=false;
+    showPeople();
+ }
+function show() {
+  document.getElementById("people").innerHTML = "";
+  showPeople();
+  document.getElementById("people").style.display = "block";
+}
+function hide() {
+  document.getElementById("people").innerHTML = "";
+}
+function sortByName() {
+  people.sort((a, b) => a.name.localeCompare(b.name));
+  show();
+}
+function sortByCountry() {
+  people.sort((a, b) => a.country.localeCompare(b.country));
+  show();
+}
+function sortByAge() {
+  people.sort((a, b) => a.age - b.age);
+  show();
+}
+function sortByCountryAndName() {
+  people.sort((a, b) => {
+    let d = a.country.localeCompare(b.country);
+    if (d !== 0) {
+      return d;
+    }
+    return a.name.localeCompare(b.name);
+  });
+  show();
+}
+function sortByCountryAndAge() {
+  people.sort((a, b) => {
+    let d = a.country.localeCompare(b.country);
+    if (d !== 0) {
+      return d;
+    }
+    return a.age - b.age;
+  });
+  show();
+}
+</script>
+</body>
+</html>

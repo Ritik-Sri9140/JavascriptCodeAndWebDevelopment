@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz Show</title>
+<style>
+  .participant {
+    padding: 10px;
+  }
+  .positive {
+    background-color: green;
+    color: white;
+  }
+  .negative {
+    background-color: red;
+    color: white;
+  }
+  .zero {
+    background-color: rgb(86, 166, 232);
+    color: black;
+  }
+  table {
+    border-collapse: collapse;
+  }
+</style>
+</head>
+<body>
+  <h1>Welcome to the Quiz Show</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Score</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="contestants">
+    </tbody>
+  </table>
+  <script>
+    let persons = [
+      { name: "Einstein", score: 0 },
+      { name: "Newton", score: 0 },
+      { name: "Edison", score: 0 }
+    ];
+    
+    function displayContestants() {
+      let contestantsTable = document.getElementById("contestants");
+      contestantsTable.innerHTML = "";
+      let tableContent = "";
+      persons.forEach(function(person) {
+        tableContent += "<tr class='" + getScoreClass(person.score) + "'>";
+        tableContent += "<td class='participant'>" + person.name + "</td>";
+        tableContent += "<td class='participant'>" + person.score + "</td>";
+        tableContent += "<td class='participant'><button onclick='increaseScore(\"" + person.name + "\")'>+2</button></td>";
+        tableContent += "<td class='participant'><button onclick='decreaseScore(\"" + person.name + "\")'>-1</button></td>";
+        tableContent += "<td class='participant'></td>";
+        tableContent += "<td class='participant'></td>";
+        tableContent += "<td class='participant'></td>";
+        tableContent += "<td class='participant'></td>";
+        tableContent += "<td class='participant'></td>";
+        tableContent += "</tr>";     
+      });
+      contestantsTable.innerHTML = tableContent;
+    }
+
+    function getScoreClass(score) {
+      if (score > 0) {
+        return "positive";
+      } else if (score < 0) {
+        return "negative";
+      } else {
+        return "zero";
+      }
+    }
+
+    function increaseScore(name) {
+      let person = persons.find(function(person) {
+        return person.name === name;
+      });
+
+      if (person) {
+        person.score += 2;
+      }
+
+      displayContestants();
+    }
+
+    function decreaseScore(name) {
+      let person = persons.find(function(person) {
+        return person.name === name;
+      });
+
+      if (person) {
+        person.score -= 1;
+      }
+
+      displayContestants();
+    }
+    displayContestants();
+  </script>
+</body>
+</html> 
+
+
+

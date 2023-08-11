@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1c</title>
+</head>
+<body>
+    <div id="divDD"></div>
+    <button onclick="makeDD()">Make DD</button>
+    <button onclick="showDD()">Show DD Data</button>
+<script>
+    let empData=[
+        {name:'Steve',empId:'BM222'},
+        {name:'George',empId:'BM405'},
+        {name:'Mary',empId:'CT188'},
+        {name:'Anna',empId:'AK534'},
+        {name:'Jack',empId:'CT029'}
+    ];
+    function makeDD(){
+        let div = document.getElementById('divDD');
+        let html=makeDDoptions(empData,'Select Employee','mary');
+        div.innerHTML=html;
+    }
+    function showDD(){
+        let dd= document.getElementById('dd1');
+        console.log(dd.value);
+    }
+    function makeDDoptions(arr,valOnTop,selVal){
+        let optarr=arr.map(function(opt){
+            if(opt.empId==selVal){
+                return '<option selected value=\''+opt.empId+'\'>'+opt.name+'</option>';
+            }
+            else{
+                return '<option value=\''+opt.empId+'\'>'+opt.name+'</option>';
+            }
+        });
+            let topStr=''
+            if(selVal==''){
+                topStr='<option selected disabled>'+valOnTop+'</option>';
+            }
+            else{
+                topStr='<option disabled>'+valOnTop+'</option>';
+                let str='<select id=\'dd1\'>'+topStr+optarr.join('')+'</select>';
+        console.log(str);
+        return str;
+            }
+            
+        
+        
+        
+    }
+</script>
+</body>
+</html>

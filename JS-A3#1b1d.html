@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 b</title> 
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h3 id="name" class="showBlue">Seller : jack Smith</h3>
+    <h3 id="email" class="showBlue">jack@email.com</h3>
+    <h3 id="mobile" class="showBlue">8974215796</h3>
+    <button onclick="changeNameStyle()">Change Name Style</button>
+    <button onclick="changeStyleAll()">All Green</button>
+    <button onclick="clearStyles()">Clear Styles</button>
+<script>
+    let ids=['name','email','mobile'];
+    function changeNameStyle(){
+        let element=document.getElementById('name');
+        element.className='showGreen';
+    }
+    function changeStyleAll(){
+        for(let i=0;i<ids.length;i++){
+            let element=document.getElementById(ids[i]);
+            element.className='showGreen';
+        }
+    }
+    function clearStyles(){
+        for(let i=0;i<ids.length;i++){
+            let element=document.getElementById(ids[i]);
+            element.className='';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5</title>
+</head>
+<style>
+.table1{
+  border-collapse: collapse;
+}
+.col1{
+  border: 1px solid black;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.th1{
+  background-color: blue;
+  color: white;
+  border: 1px solid black;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.like{
+  background-color: lightgreen;
+  color: black;
+}
+.remove{
+  background-color: lightgray;
+  color: black;
+}
+.dislike{
+  background-color: lightpink;
+  color: black;
+}
+</style>
+<body>
+    <div id="showdata"></div>
+<script>
+    let riders=[
+        {rider:'Jack',store:'Dominos'},
+        {rider:'Bob',store:'McDonalds'},
+        {rider:'George',store:'Pizza Hut'},
+        {rider:'Steve',store:'Burger King'}
+    ];
+    let feedback=[];
+    let isFeedbackHeaderShown = true;
+    show();
+    function show(){
+        let s1=showRiders();
+        let s2=showFeedback();
+        let element=document.getElementById('showdata');
+        element.innerHTML=s1+s2;
+    }
+    function showRiders(){
+        let rMap=riders.map(function(ele){
+            let str='<tr>';
+            str+='<td class="col1">'+ele.rider+'</td>';
+            str+='<td class="col1">'+ele.store+'</td>';
+            str+='<td class="col1"><button class="like" onclick=like("'+ele.rider+'",true)>Like</button><button class="dislike" onclick=like("'+ele.rider+'",false)>DisLike</button></td>';
+            str+='</tr>';
+            return str;
+        })
+        let header='<tr>';
+        header+='<th class="th1">Name</th>';
+        header+='<th class="th1">Store</th>';
+        header+='<th class="th1"></th>';
+        header+='</tr>';
+        let html='<h2>List of Riders</h2>';
+        html+='<table class="table1">'+header+rMap.join('')+'</table>';
+            return html;
+    }
+
+    function showFeedback() {
+        let fMap = feedback.map(function (ele) {
+            let str = '<tr>';
+            str += '<td class="col1">' + ele.rider + '</td>';
+            str += '<td class="col1">' + ele.store + '</td>';
+            str += '<td class="col1">' + ele.likes + '</td>';
+            str += '<td class="col1">' + ele.dislikes + '</td>';
+            str += '<td class="col1"><button class="remove" onclick=remove("' + ele.rider + '")>Remove</button></td>';
+            str += '</tr>';
+            return str;
+        });
+        let header = '';
+        let countLikes = 0;
+        let countDisLikes = 0;
+        if (feedback.length > 0 && isFeedbackHeaderShown) {
+            countLikes = feedback.reduce(function (acc, curr) {
+                return acc + curr.likes;
+            }, 0);
+            countDisLikes = feedback.reduce(function (acc, curr) {
+                return acc + curr.dislikes;
+            }, 0);
+            header += '<tr>';
+            header += '<th class="th1">Name</th>';
+            header += '<th class="th1">Store</th>';
+            header += '<th class="th1">Likes</th>';
+            header += '<th class="th1">Dislikes</th>';
+            header += '<th class="th1"></th>';
+            header += '</tr>';
+        }
+        let html = '<h2>Details of Likes</h2>';
+        if (feedback.length == 0) {
+            html += '<h3>No Feedback has been received</h3>';
+        } else {
+            html += '<h3>Number of likes: ' + countLikes + ' Number of dislikes: ' + countDisLikes + '</h3>';
+        }
+        html += '<table class="table1">' + header + fMap.join('') + '</table>';
+        return html;
+    }
+
+    function like(rider,islike){
+        let r1=feedback.find(function(ele){
+            return ele.rider==rider;
+        });
+        if(r1){
+            if(islike){
+                r1.likes++;
+            }
+            else{
+                r1.dislikes++;
+            }
+        }
+        else{
+            let rider1=riders.find(function(ele){
+                return ele.rider==rider;
+            })
+            let item={rider:rider1.rider,store:rider1.store,likes:0,dislikes:0};
+            if(islike){
+                item.likes=1;
+            }
+            else{
+                item.dislikes=1;
+            }
+            feedback.push(item);
+        }
+        console.log(feedback);
+        show();
+       }
+       function remove(rider){
+        let index=feedback.findIndex(function(ele){
+            return ele.rider==rider;
+        });
+        if(index>=0){
+            feedback.splice(index,1);
+            show();
+        }
+       }
+</script>
+</body>
+</html>

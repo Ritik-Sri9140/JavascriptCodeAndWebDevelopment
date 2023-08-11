@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1d</title>
+</head>
+<body>
+    <button onclick="getData()">Show Form</button>
+    <div id="dispArea"></div>
+</body>
+<script>
+    let courses = ['Full Stack','Pyhton','Android','Java'];
+    let data={};
+    function getData(){
+        let str='Name:<input type="text" id="name"><br/>';
+        str+='Age:<input type="text" id="age"><br/>';
+        str+= makeCoursesDD(courses,'Choose course','')+'</br>';
+        str+='<button onclick=\'submit()\'>Submit</button>';
+        let div=document.getElementById('dispArea');
+        div.innerHTML=str;
+    }
+    function edit(){
+        let str='Name:<input type="text" id="name" value="'+data.name+'"><br/>';
+        str+='Age:<input type="text" id="age" value="'+data.age+'"><br/>';
+        str+= makeCoursesDD(courses,'Choose course')+'</br>';
+        str+='<button onclick=\'submit()\'>Submit</button>';
+        let div=document.getElementById('dispArea');
+        div.innerHTML=str;
+    }
+    function makeCoursesDD(arr,firstItem,selValue){
+        let arr1=arr.map(function(opt){
+            if(opt==selValue)
+                 return '<option selected>'+opt+'</option>';
+            else
+                return '<option>'+opt+'</option>';
+        });
+        let first= '<option disabled selected>'+firstItem+'</option>';
+        if(selValue!=''){
+            first= '<option disabled selected>'+firstItem+'</option>';
+        }
+        let s1='<select id="course">'+first+arr1.join('')+'</select>';
+        return s1;
+    }
+    function submit(){
+        data.name=document.getElementById('name').value;
+        data.age=document.getElementById('age').value;
+        data.course=document.getElementById('cou-rse').value;
+        let str='<h3>Name:'+data.name+'</h3>';
+        str+='<h3>Age:'+data.age+'</h3>';
+        str+='<h3>Course:'+data.course+'</h3>';
+        str+='<button onclick=\'edit()\'>Edit</button>';
+        let div=document.getElementById('dispArea');
+        div.innerHTML=str;
+    }
+</script>
+</html>

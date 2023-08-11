@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Store Management</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Store Management</h1>
+  <button onclick="showProductMaster()">Product Master</button>
+  <button onclick="showNewProductForm()">New Product</button>
+  <button onclick="showPurchaseMaster()">Purchase Master</button>
+  <button onclick="showNewPurchaseForm()">New Purchase</button>
+  <div id="content"></div>
+  <script>
+    // Sample product master data
+    var productMaster = [
+      {
+        "ProductName": "Product 1",
+        "Category": "Food",
+        "BuyPrice": 10,
+        "SellingPrice": 15
+      },
+      {
+        "ProductName": "Product 2",
+        "Category": "Soap",
+        "BuyPrice": 5,
+        "SellingPrice": 8
+      },
+      {
+        "ProductName": "Product 3",
+        "Category": "Shampoo",
+        "BuyPrice": 7,
+        "SellingPrice": 12
+      },
+      {
+        "ProductName": "Product 4",
+        "Category": "Toothpaste",
+        "BuyPrice": 3,
+        "SellingPrice": 6
+      }
+    ];
+
+    // Sample purchase master data
+    var purchaseMaster = [
+      {
+        "ProductName": "Product 1",
+        "Quantity": 5
+      },
+      {
+        "ProductName": "Product 3",
+        "Quantity": 2
+      }
+    ];
+
+    function showProductMaster() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+
+      var table = '<table>' +
+                  '<thead>' +
+                  '<tr><th>Product Name</th><th>Category</th><th>Buy Price</th><th>Selling Price</th></tr>' +
+                  '</thead>' +
+                  '<tbody>';
+
+      for (var i = 0; i < productMaster.length; i++) {
+        var product = productMaster[i];
+        table += '<tr><td>' + product.ProductName + '</td><td>' + product.Category + '</td><td>' + product.BuyPrice + '</td><td>' + product.SellingPrice + '</td></tr>';
+      }
+
+      table += '</tbody></table>';
+
+      content.innerHTML = table;
+    }
+
+    function showNewProductForm() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+
+      var form = '<form>' +
+                 '<label>Product Name: </label><input type="text" id="productName"><br><br>' +
+                 '<label>Category: </label><select id="category">' +
+                 '<option value="Food">Food</option>' +
+                 '<option value="Soap">Soap</option>' +
+                 '<option value="Shampoo">Shampoo</option>' +
+                 '<option value="Toothpaste">Toothpaste</option>' +
+                 '</select><br><br>' +
+                 '<label>Buy Price: </label><input type="number" id="buyPrice"><br><br>' +
+                 '<label>Selling Price: </label><input type="number" id="sellingPrice"><br><br>' +
+                 '<button type="button" onclick="addNewProduct()">Add Product</button>' +
+                 '</form>';
+
+      content.innerHTML = form;
+    }
+
+    function addNewProduct() {
+      var productName = document.getElementById('productName').value;
+      var category = document.getElementById('category').value;
+      var buyPrice = parseFloat(document.getElementById('buyPrice').value);
+      var sellingPrice = parseFloat(document.getElementById('sellingPrice').value);
+
+      var product = {
+        "ProductName": productName,
+        "Category": category,
+        "BuyPrice": buyPrice,
+        "SellingPrice": sellingPrice
+      };
+
+      productMaster.push(product);
+      showProductMaster();
+    }
+
+    function showPurchaseMaster() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+
+      var table = '<table>' +
+                  '<thead>' +
+                  '<tr><th>Product Name</th><th>Quantity</th><th>Price</th><th>Value</th></tr>' +
+                  '</thead>' +
+                  '<tbody>';
+
+      for (var i = 0; i < purchaseMaster.length; i++) {
+        var purchase = purchaseMaster[i];
+        var product = getProductFromMaster(purchase.ProductName);
+
+        table += '<tr><td>' + purchase.ProductName + '</td><td>' + purchase.Quantity + '</td><td>' + product.BuyPrice + '</td><td>' + (purchase.Quantity * product.BuyPrice) + '</td></tr>';
+      }
+
+      table += '</tbody></table>';
+
+      content.innerHTML = table;
+    }
+
+    function showNewPurchaseForm() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+
+      var form = '<form>' +
+                 '<label>Product Name: </label>' + createProductDropdown() + '<br><br>' +
+                 '<label>Quantity: </label><input type="number" id="quantity"><br><br>' +
+                 '<button type="button" onclick="addNewPurchase()">Add Purchase</button>' +
+                 '</form>';
+
+      content.innerHTML = form;
+    }
+
+    function createProductDropdown() {
+      var dropdown = '<select id="productName">';
+
+      for (var i = 0; i < productMaster.length; i++) {
+        dropdown += '<option value="' + productMaster[i].ProductName + '">' + productMaster[i].ProductName + '</option>';
+      }
+
+      dropdown += '</select>';
+
+      return dropdown;
+    }
+
+    function addNewPurchase() {
+      var productName = document.getElementById('productName').value;
+      var quantity = parseInt(document.getElementById('quantity').value);
+
+      var purchase = {
+        "ProductName": productName,
+        "Quantity": quantity
+      };
+
+      purchaseMaster.push(purchase);
+      showPurchaseMaster();
+    }
+
+    function getProductFromMaster(productName) {
+      for (var i = 0; i < productMaster.length; i++) {
+        if (productMaster[i].ProductName === productName) {
+          return productMaster[i];
+        }
+      }
+      return null;
+    }
+  </script>
+</body>
+</html>

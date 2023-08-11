@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 e</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Students</h2>
+    <div id="students"></div>
+    <button onclick="showStudents()">Show Students</button>
+    <button onclick="highMarks()">Highlight Marks</button>
+    <button onclick="highStudents()">Highlight Students</button>
+<script>
+    let highlightMarks=false;
+    let highlightStudents=false;
+    let students=[
+        {name:'Bob',maths:82,computers:88},
+        {name:'Jack',maths:44,computers:55},
+        {name:'Mary',maths:91,computers:73},
+        {name:'Dave',maths:60,computers:89},
+        {name:'Julia',maths:58,computers:60},
+        {name:'Steve',maths:42,computers:47},   
+    ];
+    function showStudentsTable(){
+        let arr1=students.map(function(ele){
+            let str='<tr class=\''+getClassStudent(ele)+'\'>';
+            str+='<td class=\'td1\'>'+ele.name+'</td>';
+            str+='<td class=\''+getClassMarks(ele.maths)+'\'>'+ele.maths+'</td>';
+            str+='<td class=\''+getClassMarks(ele.computers)+'\'>'+ele.computers+'</td>';
+            str+='<td><button class="remBtn" onclick=\'remove(\"'+ele.name+'")\'>Remove</button></td>';
+            str+='</tr>';
+            return str;
+        })
+        let header='<tr>';
+        header+='<th class=\'th1\' onclick=\'sort(0)\'>Name</th>';
+        header+='<th class=\'th1\' onclick=\'sort(1)\'>Maths</th>';
+        header+='<th class=\'th1\' onclick=\'sort(2)\'>computers</th>';
+        header+='<th class=\'th1\'></th>'
+        header+='</tr>';
+        let html='<table class=\'table1\'>'+header+arr1.join('')+'</table';
+        let element=document.getElementById('students');
+        element.innerHTML=html;
+    }
+    function getClassMarks(marks){
+        if(marks>=75 && highlightMarks){
+            return 'td1 score75';
+        }
+        else if(marks<=50 && highlightMarks){
+            return 'td1 score50';
+        }
+        else{
+            return 'td1';
+        }
+    }
+    function remove(name){
+        let index=students.findIndex(function(st){
+            return st.name==name;
+        });
+        students.splice(index,1);
+        showStudentsTable();
+    }
+    function getClassStudent(st){
+        let tot=st.maths+st.computers;
+        if(tot>=150 && highlightStudents)
+        return 'total150';
+        else if(tot<=100 && highlightStudents)
+        return 'total100'
+        else
+        return '';
+    }
+    function highMarks(){
+        highlightMarks=true;
+        highlightStudents=false;
+        showStudentsTable();
+    }
+    function highStudents(){
+        highlightStudents=true;
+        highlightMarks=false;
+        showStudentsTable();
+    }
+    function showStudents(){
+        highlightMarks=false;
+        highlightStudents=false;
+        showStudentsTable();
+    }
+    function sort(colno){
+        if(colno==0){
+            students.sort(sortName)
+        }
+        else if(colno==1){
+            students.sort(sortMaths)
+        }
+        else{
+            students.sort(sortComputers)
+        }
+        showStudentsTable();
+    }
+    function sortName(st1,st2){
+        return st1.name.localeCompare(st2.name)
+    }
+    function sortMaths(st1,st2){
+        return st1.maths - st2.maths;
+    }
+    function sortComputers(st1,st2){
+        return st1.computers - st2.computers;
+    }
+</script>
+</body>
+</html>

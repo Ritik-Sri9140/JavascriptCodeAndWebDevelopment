@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3.2</title>
+    <style>
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    Name:<input type="text" id="personName" placeholder="Name"><br>
+    Age:<input type="text" id="personAge" placeholder="Age"><br>
+    City:
+    <select id="PersonCity">
+        <option>Select City</option>
+        <option value="London">London</option>
+        <option value="Paris">Paris</option>
+        <option value="Delhi">Delhi</option>
+        <option value="New York">New York</option>
+    </select>
+    <br>
+    Technology:
+    <select id="PersonTech">
+        <option>Select Technology</option>
+        <option value="Android">Android</option>
+        <option value="React">React</option>
+        <option value="Angular">Angular</option>
+        <option value="Spring">Spring</option>
+        <option value="Javascript">Javascript</option>
+    </select><br>
+    <button onclick="addPerson()">Add Person</button>
+    <button onclick="removePerson()">Remove Person</button>
+    <table border="1">
+        <tbody id="productTableBody">
+        </tbody>
+    </table>
+<script>
+    let Person = [
+        { name: "Jack", age: "28", city:"London",Tech:"Android" },
+        { name: "Mary", age: "32", city:"Peris",Tech:"React"  },
+        { name: "Bob", age: "35", city:"New York",Tech:"Angular"  },
+        { name: "Steve", age: "26", city:"Delhi",Tech:"Spring"  },
+    ];
+    function addPerson() {
+        let personName = document.getElementById('personName').value;
+        let personAge = document.getElementById('personAge').value;
+        let PersonCity = document.getElementById('PersonCity').value;
+        let PersonTech = document.getElementById('PersonTech').value;
+
+        if (personName && personAge && PersonCity && PersonTech) {
+            let existingPerson = Person.find((name) => name.name === personName);
+            if (existingPerson) {
+                alert("Name already exist");
+            }
+             else {
+                let newProduct = { name: personName, age: personAge, city:PersonCity, Tech:PersonTech};
+                Person.push(newProduct);
+            }
+            updatePersonTable();
+            clearPersonFields()
+        }
+    }
+
+    function updatePersonTable() {
+        let tableBody = document.getElementById('productTableBody');
+        let rowsHTML = Person.map((ele) => {
+            let str = '<tr>';
+            str += '<td>' + ele.name + '</td>';
+            str += '<td>' + ele.age + '</td>';
+            str += '<td>' + ele.city + '</td>';
+            str += '<td>' + ele.Tech + '</td>';
+            str += '</tr>';
+            return str;
+        }).join('');
+        tableBody.innerHTML = rowsHTML;
+    }
+
+    function updateProduct(existingPerson) {
+        let newAge = document.getElementById('personAge').value;
+        existingPerson.age = newAge;
+        updatePersonTable();
+        clearPersonFields()
+    }
+
+    function removePerson() {
+        let personName = document.getElementById('personName').value;
+        let index = Person.findIndex((person) => person.name === personName);
+        if (index !== -1) {
+            Person.splice(index, 1);
+            updatePersonTable();
+        } else {
+            alert("No person found with the name");
+        }
+        clearPersonFields();
+    }
+    updatePersonTable();
+
+    function clearPersonFields() {
+        document.getElementById('personName').value = '';
+        document.getElementById('personAge').value = '';
+        document.getElementById('PersonCity').value = '';
+        document.getElementById('PersonTech').value = '';
+        document.getElementById('personName').readOnly = false;
+        let addButton = document.querySelector('button');
+        addButton.textContent = 'Add Person';
+        addButton.onclick = addPerson;
+    }
+</script>
+</body>
+</html>

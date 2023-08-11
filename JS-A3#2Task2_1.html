@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2.1</title>
+    <style>
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    Name:<input type="text" id="productName" placeholder="Product Name"><br>
+    Quantity:<input type="text" id="productQuantity" placeholder="Quantity"><br>
+    <button onclick="addProduct()">Add Product</button>
+    <table  border="1">
+        <tbody id="productTableBody">
+        </tbody>
+    </table>
+<script>
+        let Products = [
+            { product: "Maggi", quantity: "28" },
+            { product: "Perk", quantity: "7" },
+            { product: "Gems", quantity: "11" },
+            { product: "Lindt", quantity: "4" },
+            { product: "Nutties", quantity: "20" }
+        ];
+        function addProduct() {
+            let productName = document.getElementById('productName').value;
+            let productQuantity = document.getElementById('productQuantity').value;
+            let newProduct = { product: productName, quantity: productQuantity };
+            Products.push(newProduct);
+            updateProductTable();
+            document.getElementById('productName').value = '';
+            document.getElementById('productQuantity').value = '';
+        }
+        
+        function updateProductTable() {
+            let tableBody = document.getElementById('productTableBody');
+            let rowsHTML = Products.map((ele) => {
+                let str='<tr>';
+                str+='<td>'+ele.product+'</td>';
+                str+='<td>'+ele.quantity+'</td>';
+                str += '<td><button class="remBtn" onclick=\'remove("' + ele.product + '")\'>Remove</button></td>';
+                str+='</tr>';
+                return str;
+            }).join('');
+            tableBody.innerHTML = rowsHTML;
+        }
+        updateProductTable();
+    function remove(product){
+    let index=Products.findIndex(function(st){
+        return st.product==Products;
+    });
+    Products.splice(index,1);
+    updateProductTable();
+}
+</script>
+</body>
+</html>

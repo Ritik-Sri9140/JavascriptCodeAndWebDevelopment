@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task 4</title>
+</head>
+<style>
+table {
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+th {
+  cursor: pointer;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
+.grey {
+  background-color: grey;
+}
+thead{
+    background-color: black;
+    color: white;
+}
+</style>
+<body>
+  <div>
+    New Weight between :
+    <input type="number" id="filterMin" placeholder="Enter Min Wt">
+    <input type="number" id="filterMax" placeholder="Enter Max Wt"><br>
+    <button onclick="filterTable()">Filter</button>
+    <button onclick="clearFilter()">Clear Filter</button>
+    <button onclick="showAddMemberForm()">Add New Member</button>
+  </div>
+  <table id="weightTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable('name')">Name</th>
+        <th onclick="sortTable('oldWeight')">Old Weight</th>
+        <th onclick="sortTable('newWeight')">New Weight</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+  </table>
+<script>
+    const people = [
+      { name: "Jack", oldWeight: "65", newWeight: "68" },
+      { name: "Mary", oldWeight: "55", newWeight: "53" },
+      { name: "Bob", oldWeight: "71", newWeight: "66" },
+      { name: "Steve", oldWeight: "62", newWeight: "68" },
+      { name: "James", oldWeight: "81", newWeight: "77" },
+      { name: "Julia", oldWeight: "52", newWeight: "52" },
+      { name: "Micheal", oldWeight: "68", newWeight: "68" },
+      { name: "Bill", oldWeight: "60", newWeight: "61" },
+      { name: "Sonny", oldWeight: "61", newWeight: "60" },
+    ];
+    let filteredPeople = people.slice();
+    function createTable() {
+      let tableHTML = '';
+      const tableBody = document.getElementById('tableBody');
+
+      for (let i = 0; i < people.length; i++) {
+        let name = people[i].name;
+        let oldWeight = people[i].oldWeight;
+        let newWeight = people[i].newWeight;
+
+        let diff = newWeight - oldWeight;
+        let colorClass = '';
+        if (diff > 0) {
+          colorClass = 'red';
+        } else if (diff < 0) {
+          colorClass = 'green';
+        } else {
+          colorClass = 'grey';
+        }
+
+        tableHTML += `<tr>
+          <td class="${colorClass}">${name}</td>
+          <td class="${colorClass}">${oldWeight}</td>
+          <td class="${colorClass}">${newWeight}</td>
+        </tr>`;
+      }
+      tableBody.innerHTML = tableHTML;
+    }
+  
+    function sortTable(field) {
+      const isAscending = true;
+      people.sort((a, b) => {
+        if (isAscending) {
+          return a[field].localeCompare(b[field]);
+        } else {
+          return b[field].localeCompare(a[field]);
+        }
+      });
+      createTable();
+    }
+
+    function filterTable() {
+      const minWeight = document.getElementById('filterMin').value;
+      const maxWeight = document.getElementById('filterMax').value;
+
+      const filteredPeople = people.filter(person => {
+        const weight = parseInt(person.newWeight);
+        return weight >= minWeight && weight <= maxWeight;
+      });
+
+      let tableHTML = '';
+      const tableBody = document.getElementById('tableBody');
+
+      for (let i = 0; i < filteredPeople.length; i++) {
+        const name = filteredPeople[i].name;
+        const oldWeight = filteredPeople[i].oldWeight;
+        const newWeight = filteredPeople[i].newWeight;
+
+        const diff = newWeight - oldWeight;
+        let colorClass = '';
+        if (diff > 0) {
+          colorClass = 'red';
+        } else if (diff < 0) {
+          colorClass = 'green';
+        } else {
+          colorClass = 'grey';
+        }
+
+        tableHTML += `<tr>
+          <td class="${colorClass}">${name}</td>
+          <td class="${colorClass}">${oldWeight}</td>
+          <td class="${colorClass}">${newWeight}</td>
+        </tr>`;
+      }
+      tableBody.innerHTML = tableHTML;
+    }
+    function clearFilter() {
+      filteredPeople = originalPeople.slice(); // Reset to the original data
+      document.getElementById('filterMin').value = '';
+      document.getElementById('filterMax').value = '';
+      createTable();
+    }
+    function showAddMemberForm() {
+      const addMemberForm = document.getElementById('addMemberForm');
+      addMemberForm.style.display = 'block';
+    }
+   
+
+    function addMember() {
+      const memberName = document.getElementById('memberName').value;
+      const oldWeightDropdown = document.getElementById('oldWeight');
+      const newWeightDropdown = document.getElementById('newWeight');
+      const oldWeight = oldWeightDropdown.value;
+      const newWeight = newWeightDropdown.value;
+
+      const newMember = {
+        name: memberName,
+        oldWeight: oldWeight,
+        newWeight: newWeight
+      };
+
+      people.push(newMember);
+      createTable();
+
+      // Reset form
+      document.getElementById('memberName').value = '';
+      oldWeightDropdown.selectedIndex = 0;
+      newWeightDropdown.selectedIndex = 0;
+
+      // Hide the form
+      const addMemberForm = document.getElementById('addMemberForm');
+      addMemberForm.style.display = 'none';
+    }
+    createTable();
+
+   
+</script>
+<div id="addMemberForm" style="display: none;">
+    <h3>Add New Member</h3>
+    <label for="memberName">Name:</label>
+    <input type="text" id="memberName"><br><br>
+    <label for="oldWeight">Old Weight:</label>
+    <select id="oldWeight">
+      <!-- Generating dropdown for old weight  -->
+<script>
+        const oldWeightOptions = [];
+        for (let weight = 40; weight <= 100; weight++) {
+          oldWeightOptions.push(weight);
+        }
+        const oldWeightDropdown = document.getElementById('oldWeight');
+        oldWeightOptions.map(weight => {
+          const option = document.createElement('option');
+          option.value = weight;
+          option.text = weight;
+          oldWeightDropdown.options.add(option);
+        });
+</script>
+    </select><br><br>
+    <label for="newWeight">New Weight:</label>
+    <select id="newWeight">
+      <!-- Generating dropdown for new weight -->
+<script>
+        const newWeightOptions = [];
+        for (let weight = 40; weight <= 100; weight++) {
+          newWeightOptions.push(weight);
+        }
+        const newWeightDropdown = document.getElementById('newWeight');
+        newWeightOptions.forEach(weight => {
+          const option = document.createElement('option');
+          option.value = weight;
+          option.text = weight;
+          newWeightDropdown.options.add(option);
+        });
+</script>
+    </select><br><br>
+    <button onclick="addMember()">Add Member</button>
+  </div>
+
+</body>
+</html>

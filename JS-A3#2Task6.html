@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Offers</title>
+  <style>
+    .product {
+      background-color: lightblue;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .product.active {
+      background-color: pink;
+    }
+    .button{
+        cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="products"></div>
+
+  <script>
+    const Store = [
+      {
+        "name": "Maggi",
+        "price": 25,
+        "offers": ["Citi Credit Cards", "ICICI Card"]
+      },
+      {
+        "name": "Perk",
+        "price": 10,
+        "offers": ["Axis Credit Cards", "PayTM"]
+      },
+      {
+        "name": "Gems",
+        "price": 15,
+        "offers": ["SBI Card", "PhonePe", "PayTM"]
+      },
+      {
+        "name": "Lindt",
+        "price": 90,
+        "offers": []
+      },
+      {
+        "name": "Nutties",
+        "price": 12,
+        "offers": ["Citi Credit Cards"]
+      },
+      {
+        "name": "Pepsi",
+        "price": 15,
+        "offers": ["PhonePe", "PayTM"]
+      },
+      {
+        "name": "Coca Cola",
+        "price": 15,
+        "offers": ["SBI Card"]
+      },
+      {
+        "name": "Dairy Milk",
+        "price": 10,
+        "offers": []
+      }
+    ];
+
+    let activeIndex = -1;
+
+    function toggleOffers(index) {
+      const productElements = document.getElementsByClassName('product');
+      const buttonElements = document.getElementsByClassName('button');
+      const offersElements = document.getElementsByClassName('offers');
+
+      if (activeIndex === index) {
+        productElements[index].style.backgroundColor = 'lightblue';
+        buttonElements[index].textContent = 'Show Offers';
+        offersElements[index].textContent = '';
+        activeIndex = -1;
+      } else {
+        if (activeIndex !== -1) {
+          productElements[activeIndex].style.backgroundColor = 'lightblue';
+          buttonElements[activeIndex].textContent = 'Show Offers';
+          offersElements[activeIndex].textContent = '';
+        }
+
+        productElements[index].style.backgroundColor = 'pink';
+        buttonElements[index].textContent = 'Hide Offers';
+
+        if (Store[index].offers.length > 0) {
+          offersElements[index].textContent = `${Store[index].offers.length} Offers from : ${Store[index].offers.join(', ')}`;
+        } else {
+          offersElements[index].textContent = 'No offers';
+        }
+
+        activeIndex = index;
+      }
+    }
+
+    function createProductElement(product, index) {
+      return `
+        <div class="product" style="background-color: lightblue; padding: 10px; margin-bottom: 10px;">
+          <h3>Name : ${product.name}  Price : ${product.price}</h3>
+          <p class="offers"></p>
+          <button class="button" onclick="toggleOffers(${index})">Show Offers</button>
+        </div>
+      `;
+    }
+
+    function renderProducts() {
+      const productsContainer = document.getElementById('products');
+      productsContainer.innerHTML = Store.map((product, index) => createProductElement(product, index)).join('');
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
+

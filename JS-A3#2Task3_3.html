@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3.3</title>
+    <style>
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div class="mainForm">
+    Name:<input type="text" id="personName" placeholder="Name"><br>
+    Age:<input type="text" id="personAge" placeholder="Age"><br>
+    City:
+    <select id="PersonCity">
+        <option>Select City</option>
+        <option value="London">London</option>
+        <option value="Paris">Paris</option>
+        <option value="Delhi">Delhi</option>
+        <option value="New York">New York</option>
+    </select>
+    <br>
+    Technology:
+    <select id="PersonTech">
+        <option>Select Technology</option>
+        <option value="Android">Android</option>
+        <option value="React">React</option>
+        <option value="Angular">Angular</option>
+        <option value="Spring">Spring</option>
+        <option value="Javascript">Javascript</option>
+    </select><br>
+    <button onclick="addPerson()">Add Person</button>
+    <button onclick="removePerson()">Remove Person</button><br>
+    <button onclick="manageCity()">Manage Cities</button>
+    <button onclick="manageTech()">Manage Techs</button> 
+    <table border="1">
+        <tbody id="productTableBody">
+        </tbody>
+    </table>
+</div>
+    <div id="person">
+
+    </div>
+<script>
+    let Person = [
+        { name: "Jack", age: "28", city:"London",Tech:"Android" },
+        { name: "Mary", age: "32", city:"Paris",Tech:"React"  },
+        { name: "Bob", age: "35", city:"New York",Tech:"Angular"  },
+        { name: "Steve", age: "26", city:"Delhi",Tech:"Spring"  },
+    ];
+    function addPerson() {
+    let personName = document.getElementById('personName').value;
+    let personAge = document.getElementById('personAge').value;
+    let PersonCity = document.getElementById('PersonCity').value;
+    let PersonTech = document.getElementById('PersonTech').value;
+    if (personName) {
+        let existingPerson = Person.find((person) => person.name === personName);
+        if (existingPerson) {
+            alert("Name already exists");
+        } else {
+            let newPerson = { name: personName, age: personAge, city: PersonCity, Tech: PersonTech };
+            Person.push(newPerson);
+        }
+        updatePersonTable();
+        clearPersonFields();
+    }
+}
+    function updatePersonTable() {
+        let tableBody = document.getElementById('productTableBody');
+        let rowsHTML = Person.map((ele) => {
+            let str = '<tr>';
+            str += '<td>' + ele.name + '</td>';
+            str += '<td>' + ele.age + '</td>';
+            str += '<td>' + ele.city + '</td>';
+            str += '<td>' + ele.Tech + '</td>';
+            str += '</tr>';
+            return str;
+        }).join('');
+        tableBody.innerHTML = rowsHTML;
+    }
+    function updateProduct(existingPerson) {
+        let newAge = document.getElementById('personAge').value;
+        existingPerson.age = newAge;
+        updatePersonTable();
+        clearPersonFields()
+    }
+    function removePerson() {
+        let personName = document.getElementById('personName').value;
+        let index = Person.findIndex((person) => person.name === personName);
+        if (index !== -1) {
+            Person.splice(index, 1);
+            updatePersonTable();
+        } else {
+            alert("No person found with the name");
+        }
+        clearPersonFields();
+    }
+    updatePersonTable();
+    function clearPersonFields() {
+        document.getElementById('personName').value = '';
+        document.getElementById('personAge').value = '';
+        document.getElementById('PersonCity').value = '';
+        document.getElementById('PersonTech').value = '';
+        document.getElementById('personName').readOnly = false;
+        let addButton = document.querySelector('button');
+        addButton.textContent = 'Add Person';
+        addButton.onclick = addPerson;
+    }
+
+
+function manageCity() {
+    let str = '<h3>Select Cities</h3>';
+    str += '<select id="tech">';
+    str += '<option>Select Cities</option>';
+    str += '<option value="London">London</option>';
+    str += '<option value="Paris">Paris</option>';
+    str += '<option value="New York">New York</option>';
+    str += '<option value="Delhi">Delhi</option>';
+    str += '</select><br/>';
+    str += '<button onclick="addCity()">Add</button>';
+    str += '<table>';
+    Person.map((person) => {
+        if (person.city) {
+            str += '<tr>';
+            str += '<td>' + person.city + '</td>';
+            str += '<td><button class="remBtn" onclick="removeCity(\'' + person.city + '\')">Remove</button></td>';
+            str += '</tr>';
+        }
+    });
+    str += '</table>';
+    str += '<button onclick="showMainScreen()">Show Main Form</button>';
+    let div = document.getElementById('person');
+    div.innerHTML = str;
+    document.querySelector('.mainForm').style.display = 'none';
+}
+function addCity() {
+    let city = document.getElementById('city').value;
+    if (city) {
+        let existingCity = Person.find((person) => person.city === city);
+        if (existingCity) {
+            alert("City already exists");
+        } else {
+                let newCity = { city: city};
+                Person.push(newCity);
+            }
+        manageCity();
+        clearCityField();
+       }
+}
+
+
+
+    function removeCity(city) {
+    let index=Person.findIndex(function(st){
+        return st.city==city;
+    });
+    Person.splice(index,1);
+    manageCity();
+    }
+    function clearCityField() {
+    document.getElementById('city').value = '';
+    }
+
+
+
+function manageTech() {
+    let str = '<h3>Select Technology</h3>';
+    str += '<select id="tech">';
+    str += '<option>Select Technology</option>';
+    str += '<option value="Android">Android</option>';
+    str += '<option value="React">React</option>';
+    str += '<option value="Angular">Angular</option>';
+    str += '<option value="Spring">Spring</option>';
+    str += '<option value="Javascript">Javascript</option>';
+    str += '</select><br/>';
+    str += '<button onclick="addTech()">Add</button>';
+    str += '<table>';
+    Person.map((person) => {
+        if (person.Tech) {
+            str += '<tr>';
+            str += '<td>' + person.Tech + '</td>';
+            str += '<td><button class="remBtn" onclick="removeTech(\'' + person.Tech + '\')">Remove</button></td>';
+            str += '</tr>';
+        }
+    });
+    str += '</table>';
+    str += '<button onclick="showMainScreen()">Show Main Form</button>';
+    let div = document.getElementById('person');
+    div.innerHTML = str;
+    document.querySelector('.mainForm').style.display = 'none';
+}
+
+
+function showMainScreen() {
+    let div = document.getElementById('person');
+    div.innerHTML = '';
+    document.querySelector('.mainForm').style.display = 'block'; 
+}
+function addTech() {
+    let tech = document.getElementById('tech').value;
+    if (tech) {
+        let existingTech = Person.find((person) => person.Tech === tech);
+        if (existingTech) {
+            alert("Technology already exists");
+        } else {
+                let newTech = {Tech: tech};
+                Person.push(newTech);
+            }
+        manageTech();
+        clearTechField();
+    }
+}
+
+function removeTech(tech) {
+    let index=Person.findIndex(function(st){
+        return st.Tech==tech;
+    });
+    Person.splice(index,1);
+    manageTech();
+}
+
+function clearTechField() {
+    document.getElementById('tech').value = '';
+}
+
+
+</script>
+</body>
+</html>
+

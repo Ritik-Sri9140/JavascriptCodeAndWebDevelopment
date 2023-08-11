@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Words</title>
+</head>
+<style>
+    .c1{
+        background-color: lightpink;
+    }
+    .c2{
+        background-color: lightgray;
+    }
+    .c3{
+        background-color: lightgreen;
+    }
+</style>
+<body>
+    Text : <input type="text" id="txt" placeholder="Enter text" onkeyup="keyUp(this)">
+    <div id="d1"></div>
+</body>
+<script>
+    function keyUp(elem){
+        let txt=elem.value;
+        let div=document.getElementById("d1");
+        div.innerHTML=txt;
+        if(txt.length<4){
+            div.className="c1";
+        }
+        else if(txt.length<8){
+            div.className="c2";
+        }
+        else{
+            div.className="c3";
+        }   
+    } 
+</script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 c</title>
+</head>
+<body>
+    <h2>List of names</h2>
+    <div id="listnames"></div>
+    <button onclick="showNames()">Show Names</button>
+    <button onclick="hideNames()">Hide Names</button>
+    <br/>
+    <button onclick="sortAsc()">Ascending Order</button>
+    <button onclick="sortDesc()">Descending Order</button>
+<script>
+    let names=['Steven Price','Anna Metthews','Tim Davids','Julia Burton','Mary James','Ed johnson'];
+    function showNames(){
+        let namesMap=names.map(function(name){
+            return '<li>'+name+'</li>';
+        });
+        let str='<ul>'+namesMap.join('')+'</ul>';
+        let element=document.getElementById('listnames');
+        element.innerHTML=str;
+    }
+    function hideNames(){
+        let element=document.getElementById('listnames');
+        element.innerHTML='';
+    }
+    function sortAsc(){
+        names.sort(sortNamesAsc);
+        showNames();
+    }
+    function sortNamesAsc(name1,name2){
+        return name1.localeCompare(name2);
+    }
+    function sortDesc(){
+        names.sort(sortNamesDesc);
+        showNames();
+    }
+    function sortNamesDesc(name1,name2){
+        return -1*name1.localeCompare(name2);
+    }
+</script>
+</body>
+</html>

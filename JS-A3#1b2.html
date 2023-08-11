@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>List of People</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>List of People</h1>
+    <ul id="myList"></ul>
+    <div id="people"></div>
+    <button onclick="show()">Show</button>
+    <button onclick="hide()">Hide</button><br>
+    <button onclick="sortByName()">Sort by name</button>
+    <button onclick="sortByCountry()">Sort by country</button>
+    <button onclick="sortByAge()">Sort by age</button><br>
+    <button onclick="sortByCountryAndName()">Sort by country and name</button>
+    <button onclick="sortByCountryAndAge()">Sort by country and age</button><br>
+    <button onclick="showIndia()">India</button>
+    <button onclick="showUSA()">USA</button>
+    <button onclick="showFrance()">France</button><br>
+    <button onclick="styleByCountry()">Style by country</button>
+    <button onclick="styleByAge()">Style by age</button>
+<script>
+  let highlightCountry=false;
+    let highlightAge=false;
+    let people=[
+    {"name":"Jack","country":"USA","age":35},
+    {"name":"Amit","country":"India","age":38},
+    {"name":"Edward","country":"USA","age":41},
+    {"name":"Vishal","country":"India","age":30},
+    {"name":"Annie","country":"USA","age":27},
+    {"name":"Nick","country":"France","age":32},
+    {"name":"Francis","country":"France","age":44},
+    {"name":"Preeti","country":"India","age":25},
+    {"name":"Sophie","country":"France","age":29},
+    {"name":"Harpreet","country":"India","age":48},
+    {"name":"Bob","country":"USA","age":21}   
+]; 
+function showPeople(filterCountry = '') {
+  let filteredPeople = people;
+  if (filterCountry !== '') {
+    filteredPeople = people.filter(person => person.country === filterCountry);
+  }
+  let arr = filteredPeople.map(function (person) {
+    let str = '<li>';
+    str += person.name + ' , ';
+    str += '<span class="' + Country(person.country) + '">' + person.country + '</span> , ';
+    str += '<span class="' + Age(person.age) + '">' + person.age + '</span>';
+    str += '</li>';
+    return str;
+  });
+  document.getElementById("myList").innerHTML = arr.join("");
+}
+
+function showIndia() {
+  showPeople("India");
+}
+function showUSA() {
+  showPeople("USA");
+}
+function showFrance() {
+  showPeople("France");
+}
+
+
+  function Country(country) {
+    if (country == "India" && highlightCountry) {
+      return 'india';
+    } else if (country == "USA" && highlightCountry) {
+      return 'usa';
+    } else if (country == "France" && highlightCountry){
+      return 'france';
+    }
+    else{
+      return '';
+    }
+}
+function Age(age){
+    if(age<=30 && highlightAge){
+      return 'age30'
+    }
+    else if(age>30 && age<=40 && highlightAge){
+      return 'age40';
+    }
+    else if(age>40 && highlightAge){
+      return 'age';
+    }
+    else{
+      return '';
+    }
+}
+ function styleByCountry(){
+    highlightCountry=true;
+    highlightAge=false;
+    showPeople();
+ }
+ function styleByAge(){
+    highlightAge=true;
+    highlightCountry=false;
+    showPeople();
+ }
+function show() {
+  document.getElementById("people").innerHTML = "";
+  document.getElementById("myList").style.display = 
+  "block";
+  showPeople();
+}
+
+function hide() {
+  document.getElementById("myList").innerHTML = "";
+}
+function sortByName() {
+  people.sort((a, b) => a.name.localeCompare(b.name));
+  show();
+}
+function sortByCountry() {
+  people.sort((a, b) => a.country.localeCompare(b.country));
+  show();
+}
+function sortByAge() {
+  people.sort((a, b) => a.age - b.age);
+  show();
+}
+function sortByCountryAndName() {
+  people.sort((a, b) => {
+    let d = a.country.localeCompare(b.country);
+    if (d !== 0) {
+      return d;
+    }
+    return a.name.localeCompare(b.name);
+  });
+  show();
+}
+function sortByCountryAndAge() {
+  people.sort((a, b) => {
+    let d = a.country.localeCompare(b.country);
+    if (d !== 0) {
+      return d;
+    }
+    return a.age - b.age;
+  });
+  show();
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- str+='<button  id="update" class="add1age" onclick=\'add1(\"'+person.age+'")\'>Add 1 age</button>';
+function add1(index) {
+  people[index].age++;
+  console.log("Updated age:", people[index].age);
+}
+
+document.getElementById("update").addEventListener("click", function() {
+  add1(0);
+}); -->
+
+
+
+
+<!-- str+='<button class="remBtn" onclick=\'remove(\"'+person.name+'")\'>Remove</button>';
+function remove(name){
+        let index=people.findIndex(function(st){
+            return st.name==name;
+        });
+        people.splice(index,1);
+        showPeople();
+} -->

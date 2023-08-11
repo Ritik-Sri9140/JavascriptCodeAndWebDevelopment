@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7.2</title>
+</head>
+<style>
+.table1{
+  border-collapse: collapse;
+}
+.col1{
+  border: 1px solid black;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.th1{
+  background-color: blue;
+  color: white;
+  border: 1px solid black;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.addToCart{
+  background-color: lightgreen;
+  color: black;
+}
+</style>
+<body>
+    <div id="showdata"></div>
+</body>
+<script>
+    let products=[
+    {prod:'Pepsi',price:15,stock:20},
+    {prod:'Coke',price:18,stock:30},
+    {prod:'Maggi',price:10,stock:35},
+    {prod:'Nescafe',price:40,stock:10},
+    {prod:'Dairy Milk',price:30,stock:12},
+    {prod:'Frito Lays',price:20,stock:15}
+    ];
+    let feedback=[];
+    let isFeedbackHeaderShown = true;
+    show();
+    function show(){
+        let s1=showProduct();
+        let s2=showFeedback();
+        let element=document.getElementById('showdata');
+        element.innerHTML=s1+s2;
+    }
+    function showProduct(){
+        let rMap=products.map(function(ele){
+            let str='<tr>';
+            str+='<td class="col1">'+ele.prod+'</td>';
+            str+='<td class="col1">'+ele.price+'</td>';
+            str+='<td class="col1">'+ele.stock+'</td>';
+            str+='<td class="col1"><button class="addToCart" onclick="Add(\''+ele.prod+'\', true)">Add To Cart</button></td>';
+            str+='</tr>';
+            return str;
+        });
+        let header='<tr>';
+        header+='<th class="th1">Product</th>';
+        header+='<th class="th1">Price</th>';
+        header+='<th class="th1">Stock</th>';
+        header+='<th class="th1"></th>';
+        header+='</tr>';
+        let html='<h2>List of Product</h2>';
+        html+='<table class="table1">'+header+rMap.join('')+'</table>';
+        return html;
+    }
+
+    function showFeedback() {
+        let fMap = feedback.map(function (ele) {
+            let str = '<tr>';
+            str += '<td class="col1">' + ele.product + '</td>';
+            str += '<td class="col1">' + ele.quantity + '</td>';
+            str += '<td class="col1">' + ele.price + '</td>';
+            str += '<td class="col1">' + (ele.quantity * ele.price) + '</td>';
+            str += '</tr>';
+            return str;
+        });
+        let header = '';
+        let countQuantity = 0;
+        let countAmount = 0;
+        if (feedback.length > 0 && isFeedbackHeaderShown) {
+            countQuantity = feedback.reduce(function (acc, curr) {
+                return acc + curr.quantity;
+            }, 0);
+            countAmount = feedback.reduce(function (acc, curr) {
+                return acc + (curr.quantity * curr.price);
+            }, 0);
+        
+        header = '<tr>';
+            header += '<th class="th1">Product</th>';
+            header += '<th class="th1">Quantity</th>';
+            header += '<th class="th1">Price</th>';
+            header += '<th class="th1">Amount</th>';
+            header += '</tr>';
+        }
+        let html = '<h2>My Cart</h2>';
+        if (countQuantity === 0) {
+            html += '<h3>Cart is Empty</h3>';
+        } else {
+            html += '<h3>Number of items: ' + countQuantity + ' Total Amount: ' + countAmount + '</h3>';
+        }
+        html += '<table class="table1">' + header + fMap.join('') + '</table>';
+        return html;
+        console.log(header);
+    }
+    
+function Add(prod, isadd) {
+    let r1 = feedback.find(function (ele) {
+        return ele.product == prod;
+    });
+    if (r1) {
+        if (isadd)
+            r1.quantity++;
+    } else {
+        let product1 = products.find(function (ele) {
+            return ele.prod == prod;
+        })
+        let item = {
+            product: product1.prod,
+            price: product1.price,
+            quantity: 1
+        };
+        feedback.push(item);
+    }
+    console.log(feedback);
+    show();
+} 
+</script>
+</html>

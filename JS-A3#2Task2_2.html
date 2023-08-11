@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2.2</title>
+    <style>
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    Name:<input type="text" id="productName" placeholder="Product Name"><br>
+    Quantity:<input type="text" id="productQuantity" placeholder="Quantity"><br>
+    <button onclick="addProduct()">Add Product</button>
+    <table border="1">
+        <tbody id="productTableBody">
+        </tbody>
+    </table>
+<script>
+    let Products = [
+        { product: "Maggi", quantity: "28" },
+        { product: "Perk", quantity: "7" },
+        { product: "Gems", quantity: "11" },
+        { product: "Lindt", quantity: "4" },
+        { product: "Nutties", quantity: "20" }
+    ];
+
+    function addProduct() {
+        let productName = document.getElementById('productName').value;
+        let productQuantity = document.getElementById('productQuantity').value;
+
+        if (productName && productQuantity) {
+            let existingProduct = Products.find((product) => product.product === productName);
+
+            if (existingProduct) {
+                existingProduct.quantity = productQuantity;
+            } else {
+                let newProduct = { product: productName, quantity: productQuantity };
+                Products.push(newProduct);
+            }
+
+            updateProductTable();
+            clearProductFields();
+        }
+    }
+
+    function updateProductTable() {
+        let tableBody = document.getElementById('productTableBody');
+        let rowsHTML = Products.map((ele) => {
+            let str = '<tr>';
+            str += '<td>' + ele.product + '</td>';
+            str += '<td>' + ele.quantity + '</td>';
+            str += '<td><button class="remBtn" onclick=\'removeProduct("' + ele.product + '")\'>Remove</button></td>';
+            str += '<td><button class="editBtn" onclick=\'editProduct("' + ele.product + '")\'>Edit</button></td>'
+            str += '</tr>';
+            return str;
+        }).join('');
+        tableBody.innerHTML = rowsHTML;
+    }
+
+    function editProduct(product) {
+        let existingProduct = Products.find((ele) => ele.product === product);
+
+        if (existingProduct) {
+            document.getElementById('productName').value = existingProduct.product;
+            document.getElementById('productQuantity').value = existingProduct.quantity;
+            document.getElementById('productName').readOnly = true;
+
+            let addButton = document.querySelector('button');
+            addButton.textContent = 'Update';
+            addButton.onclick = function () {
+                updateProduct(existingProduct);
+            };
+        }
+    }
+
+    function updateProduct(existingProduct) {
+        let newQuantity = document.getElementById('productQuantity').value;
+        existingProduct.quantity = newQuantity;
+
+        clearProductFields();
+        updateProductTable();
+    }
+
+    function removeProduct(product) {
+        let index = Products.findIndex((ele) => ele.product === product);
+        Products.splice(index, 1);
+        updateProductTable();
+    }
+
+    function clearProductFields() {
+        document.getElementById('productName').value = '';
+        document.getElementById('productQuantity').value = '';
+        document.getElementById('productName').readOnly = false;
+
+        let addButton = document.querySelector('button');
+        addButton.textContent = 'Add Product';
+        addButton.onclick = addProduct;
+    }
+
+    updateProductTable();
+</script>
+</body>
+</html>
